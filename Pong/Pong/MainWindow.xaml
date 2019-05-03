@@ -8,6 +8,10 @@
         Title="PONG" Height="675" Width="1200" Loaded="Window_Loaded" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65*"/>
+            <RowDefinition Height="43*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
             <ColumnDefinition Width="107*"/>
@@ -16,7 +20,7 @@
             <ColumnDefinition Width="80*"/>
         </Grid.ColumnDefinitions>
 
-        <Border BorderBrush="Black" BorderThickness="5" HorizontalAlignment="Center" Height="450" Margin="148,99,197.2,99" VerticalAlignment="Center" Width="800" Grid.ColumnSpan="4" Grid.Column="1">
+        <Border BorderBrush="Black" BorderThickness="5" HorizontalAlignment="Center" Height="450" Margin="147.976,99,197.269,99" VerticalAlignment="Center" Width="800" Grid.ColumnSpan="4" Grid.Column="1" Grid.RowSpan="2">
             <Grid Name="GameGrid" HorizontalAlignment="Center" Width="792">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -37,28 +41,33 @@
 
             </Grid>
         </Border>
-        <Label x:Name="lblScoreLimitOutput" Content="10" HorizontalAlignment="Right" Margin="0,60,155.269,0" VerticalAlignment="Top" Height="34" Width="105" FontWeight="Bold" FontSize="18" Grid.Column="4"/>
-        <Label x:Name="lblScoreLimit" HorizontalAlignment="Left" Margin="24.8,60,0,0" VerticalAlignment="Top" Height="39" Width="115" FontWeight="Bold" FontSize="18" Grid.Column="4">
-            <TextBlock TextDecorations="Underline">Score Limit:</TextBlock>
-        </Label>
+        <Canvas Grid.Column="3" HorizontalAlignment="Left" Height="35" Margin="94.833,59,0,0" VerticalAlignment="Top" Width="203" Grid.ColumnSpan="2">
+            <Label x:Name="lblScoreLimitOutput" Content="10" HorizontalAlignment="Right" VerticalAlignment="Top" Height="34" Width="63" FontWeight="Bold" FontSize="18" Canvas.Right="0"/>
+            <Label x:Name="lblScoreLimit" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="115" FontWeight="Bold" FontSize="18" Canvas.Left="0">
+                <TextBlock TextDecorations="Underline">Score Limit:</TextBlock>
+            </Label>
+
+        </Canvas>
+
+
         <Label x:Name="LblP1Score" Content="0" HorizontalAlignment="Left" Margin="40,110,0,0" VerticalAlignment="Top" Height="40" Width="30" FontWeight="Bold" FontSize="18" Grid.ColumnSpan="2"/>
         <Label x:Name="lblPlayer1Name" HorizontalAlignment="Left" Margin="40,75,0,0" VerticalAlignment="Top" Height="45" Width="123" FontWeight="Bold" FontSize="18" Grid.ColumnSpan="2">
-            <TextBlock TextDecorations="Underline">Player 1</TextBlock>
+            <TextBlock Name="TB1output" TextDecorations="Underline">Player 1</TextBlock>
         </Label>
-        <Label x:Name="LblP2Score" Content="0" HorizontalAlignment="Right" Margin="0,110,0.208,0" VerticalAlignment="Top" Height="40" Width="120" FontWeight="Bold" FontSize="18" Grid.Column="4"/>
-        <Label x:Name="lblPlayer2Name" Margin="0,75,0.2,0" VerticalAlignment="Top" Height="45" Width="123" FontWeight="Bold" FontSize="18" HorizontalAlignment="Right" Grid.Column="4">
-            <TextBlock TextDecorations="Underline" Width="113" HorizontalAlignment="Right" Height="35" Text="Player 2"/>
+        <Label x:Name="LblP2Score" Content="0" HorizontalAlignment="Right" Margin="0,110,0.269,0" VerticalAlignment="Top" Height="40" Width="120" FontWeight="Bold" FontSize="18" Grid.Column="4"/>
+        <Label x:Name="lblPlayer2Name" Margin="0,75,0.269,0" VerticalAlignment="Top" Height="45" Width="123" FontWeight="Bold" FontSize="18" HorizontalAlignment="Right" Grid.Column="4">
+            <TextBlock Name="TBP2output" TextDecorations="Underline" Width="113" HorizontalAlignment="Right" Height="35" Text="Player2"/>
         </Label>
-        <Canvas Grid.Column="1" HorizontalAlignment="stretch" Height="65" Margin="344.992,0,380.208,10" VerticalAlignment="Bottom" Width="420" Grid.ColumnSpan="4">
+        <Canvas Grid.Column="1" HorizontalAlignment="stretch" Height="65" Margin="344.976,0,380.269,10" VerticalAlignment="Bottom" Width="420" Grid.ColumnSpan="4" Grid.Row="1">
             <Button x:Name="btnPauseGame" Background="white"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="350" BorderBrush="Black" BorderThickness="2" Click="btnPauseGame_Click" Content="Press this button to start or pause." Height="26" Canvas.Left="35" HorizontalContentAlignment="Center"  />
             <Label x:Name="lblpausenote" Content="^ This button may also be activated by the spacebar ^" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Canvas.Left="55" Canvas.Top="26" Width="305"/>
         </Canvas>
         <Canvas x:Name="CanvasTopLeft" HorizontalAlignment="Left" Height="110" VerticalAlignment="Top" Width="795" Grid.ColumnSpan="4" MouseLeave="Canvas_MouseLeave">
             <Button x:Name="btnOptions"  MouseEnter="btnVOMouseEnter" Focusable="False" MouseLeave="btnVOMouseLeave" Background="white" Content="View Options" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" Canvas.Left="100"/>
             <Button x:Name="btnNewGame" Background="white" Content="New Game" Focusable="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" MouseEnter="btnNGMouseEnter" MouseLeave="btnNGMouseLeave" />
-            <Button x:Name="btnNewGameSinglePlayer" Visibility="Visible" Background="white" Content="Single Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" MouseEnter="btnNG1MouseEnter" MouseLeave="btnNG1MouseLeave" BorderThickness="2" Canvas.Top="20"/>
-            <Button x:Name="btnNewGame2Player" Visibility="Visible" Background="white" Content="2 Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" MouseEnter="btnNG2MouseEnter" MouseLeave="btnNG2MouseLeave" Canvas.Top="40"/>
-            <Button x:Name="btnMainScreen" Visibility="Hidden" Background="white" Content="Home Screen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" MouseEnter="btnNG2MouseEnter" MouseLeave="btnNG2MouseLeave" Canvas.Top="59" Click="btnMainScreen_Click"/>
+            <Button x:Name="btnNewGameSinglePlayer" Visibility="Hidden" Background="white" Content="Single Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" MouseEnter="btnNG1MouseEnter" MouseLeave="btnNG1MouseLeave" BorderThickness="2" Canvas.Top="20" Click="btnNewGameSinglePlayer_Click"/>
+            <Button x:Name="btnNewGame2Player" Visibility="Hidden" Background="white" Content="2 Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" MouseEnter="btnNG2MouseEnter" MouseLeave="btnNG2MouseLeave" Canvas.Top="40" Click="btnNewGame2Player_Click"/>
+            <Button x:Name="btnMainScreen" Visibility="Hidden" Background="white" Content="Home Screen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" Canvas.Top="59" Click="btnMainScreen_Click" MouseEnter="btnMainScreen_MouseEnter" MouseLeave="btnMainScreen_MouseLeave"/>
             <Button x:Name="btnLeaderboards" Focusable="False"  Background="white" Content="Leaderboard" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" Canvas.Left="200" Click="btnLeaderboards_Click"/>
             <Button x:Name="btnChangeTheme" Visibility="Hidden" MouseEnter="btnCTMouseEnter" Background="white" Content="Change Theme" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" Canvas.Left="100" Canvas.Top="20" Click="btnChangeTheme_Click" MouseLeave="btnChangeTheme_MouseLeave"/>
             <Label x:Name="lblLeaderboard" Canvas.Left="205" Canvas.Top="27" Content="Leaderboard coming in a future update!" Visibility="Hidden"/>
@@ -92,13 +101,28 @@
                         <ImageBrush ImageSource="Images/IconWizardHat.png" Stretch="UniformToFill"/>
                     </Button.Background>
                 </Button>
-                <Label Name="lblthemechangenote" Content="^ To close click again ^" Canvas.Top="19" Height="26" Width="100" FontSize="8" HorizontalContentAlignment="Center"/>
+                <Label Name="lblthemechangenote" Content="^ To close click again ^" Background="Black" Canvas.Top="19" Height="26" Width="100" FontSize="8" HorizontalContentAlignment="Center"/>
 
             </Canvas>
         </Canvas>
-        <Grid Name="WinningScreen" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" Height="638" VerticalAlignment="Stretch" Width="1185" Visibility="Hidden">
+        <!-- I wanted to put a border around the text, but that was super difficult apparently. Instead I did this: https://siderite.blogspot.com/2016/03/how-to-draw-outlined-text-in-wpf-and.html#at2665784896 -->
+        <Grid Name="WinningScreen" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" Height="638" VerticalAlignment="Stretch" Width="1185" Visibility="Hidden" Margin="5,5,5.269,5" Grid.RowSpan="2">
             <Canvas HorizontalAlignment="Center" Height="215" Margin="0,0,0,0" VerticalAlignment="Center" Width="499">
-                <Label Name="lblWinner" Content="The Winner of this Round is Player 2!" Canvas.Top="10" HorizontalContentAlignment="Center" Height="65" Width="499" FontSize="24" FontWeight="Bold" VerticalAlignment="Stretch"/>
+                <TextBlock Name="lblWinner" Text="The Winner of the game is {PName}. Congratulations!"   Foreground="White" TextAlignment="Center"  Height="39" Width="795" FontStretch="Normal"  FontSize="24" FontWeight="Bold" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Canvas.Left="-148" Canvas.Top="-26">
+                    <TextBlock.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Offset="0"    Color="White"       />
+                            <GradientStop Offset="1"    Color="Black"       />
+                        </LinearGradientBrush>
+                    </TextBlock.Background>
+
+
+
+                </TextBlock>
+
+
+
+
                 <Button Name="btnNewRound" Focusable="False" Content="Click the pause button below to start the next round." Canvas.Top="75" Width="499" Height="74" FontSize="18" FontWeight="Bold" Background="White" HorizontalContentAlignment="Center" VerticalAlignment="Stretch"/>
 
             </Canvas>
@@ -107,7 +131,7 @@
 
         </Grid>
 
-        <Grid Name="StartingScreen" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" Height="638" VerticalAlignment="Top" Width="1185" Visibility="Hidden">
+        <Grid Name="StartingScreen" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" Height="638" VerticalAlignment="Top" Width="1185" Visibility="Hidden" Margin="5,0,5.269,0" Grid.RowSpan="2">
             <Rectangle Fill="White" HorizontalAlignment="Stretch"></Rectangle>
             <Canvas HorizontalAlignment="Stretch" Height="628" Margin="10,10,0,0" VerticalAlignment="Center" Width="1175">
                 <Label x:Name="lblIntroMessage" Content="Hello! Welcome to my game of PONG." Height="90" Width="1175" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="36" HorizontalAlignment="Center" Canvas.Top="35"/>
@@ -149,23 +173,24 @@
                         </Button.Background>
                     </Button>
                 </Canvas>
-                <Label x:Name="lblGamemode" Content="GameMode:" Canvas.Left="290" Canvas.Top="246" FontSize="16" FontWeight="Bold"/>
-                <Label x:Name="lblgoallimit" Content="GoalLimit:" Canvas.Left="425" Canvas.Top="306" FontSize="16" FontWeight="Bold"/>
-                <RadioButton x:Name="RadioSingleP" Content="Single Player" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="530" Canvas.Top="255" FontSize="16" FontWeight="Bold"/>
-                <RadioButton x:Name="Radio2P" Content="2 Player" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="770" Canvas.Top="255" FontSize="16" FontWeight="Bold"/>
-                <TextBox Name="TxtScoreLimit" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="65" Canvas.Left="685" Canvas.Top="314"/>
-                <Label x:Name="lblGoalLimitError" Content="ERROR: This must be a whole number!" Canvas.Left="750" Canvas.Top="309" FontSize="14" FontWeight="Bold" Foreground="Red" Visibility="Hidden"/>
+                <Label x:Name="lblGamemode" Content="GameMode:" Canvas.Left="305" Canvas.Top="244" FontSize="16" FontWeight="Bold"/>
+                <Label x:Name="lblgoallimit" Content="Score Limit:" Canvas.Left="305" Canvas.Top="334" FontSize="16" FontWeight="Bold"/>
+                <RadioButton x:Name="RadioSingleP" Content="Single Player" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="461" Canvas.Top="250" FontSize="16" FontWeight="Bold" Checked="RadioSingleP_Checked"/>
+                <RadioButton x:Name="Radio2P" Content="Two Player" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="640" Canvas.Top="250" FontSize="16" FontWeight="Bold" Checked="Radio2P_Checked"/>
+                <TextBox Name="TxtScoreLimit" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="65" Canvas.Left="440" Canvas.Top="342"/>
+                <Label x:Name="lblGoalLimitError" Content="ERROR: This must be a whole number!" Canvas.Left="530" Canvas.Top="339" FontSize="14" FontWeight="Bold" Foreground="Red" Visibility="Hidden"/>
+                <TextBox x:Name="TxtP1Name" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="96" Canvas.Left="470" Canvas.Top="297" Visibility="Hidden"/>
+                <TextBox x:Name="TxtP2Name" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="96" Canvas.Left="660" Canvas.Top="297" Visibility="Hidden"/>
+                <Label Name="lblP1Name" Visibility="Hidden" Content="Player 1 Name:" Canvas.Left="376" Canvas.Top="296"/>
+                <Label x:Name="lblP2Name" Visibility="Hidden" Content="Player 2 Name:" Canvas.Left="571" Canvas.Top="297"/>
+                <Label x:Name="lblRadioError" Content="ERROR: You must select a gamemode!" Canvas.Left="785" Canvas.Top="241" FontSize="14" FontWeight="Bold" Foreground="Red" Visibility="Hidden"/>
+                <Label x:Name="lblNameError" Content="ERROR: Names should not be left empty" Canvas.Left="785" Canvas.Top="276" FontSize="14" FontWeight="Bold" Foreground="Red" Visibility="Hidden"/>
+
             </Canvas>
 
 
-
-
-
-
-
-
-
         </Grid>
+
     </Grid>
 
 </Window>

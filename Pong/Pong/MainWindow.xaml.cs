@@ -25,18 +25,22 @@ namespace Pong
         public bool LeftRecMovement = false, RightRecMovement = false, BallMovement = false, IsPaused = true;
         public bool Leftupkeydown = false, Leftdownkeydown = false, Rightupkeydown = false, Rightdownkeydown = false;
         public int leftplayertop, leftplayerbottom, rightplayertop, rightplayerbottom, movementx, movementy;
-        public string LeftMovement = "", RightMovement = "", roundwinner = "", gamewinner = "";
-        public int LRY = 0, RRY = 0, LPBY = 0, RPBY = 0;
+        public string LeftMovement = "", RightMovement = "", roundwinner = "", gamewinner = "", P1Name = "Player 1", P2Name = "Player 2";
+        public double LRY = 0, RRY = 0, LPBY = 0, RPBY = 0;
         public int BallXmove, BallYmove, P1Score = 0, P2Score = 0;
         public string Gamemode = "2P";
         public string leftrecmoving = "", rightrecmoving = "", ballmoving = "";
         public int leftmovementcounter = 0, rightmovementcounter = 0, ballmovementcounter = 0;
-        public int leftfirstcheck = 0, leftsecondcheck = 0, rightfirstcheck = 0, rightsecondcheck = 0;
-        public bool startingnewround = true, gameover;
+        public double leftfirstcheck = 0, leftsecondcheck = 0, rightfirstcheck = 0, rightsecondcheck = 0;
+        public bool startingnewround = true, gameover = false;
         public string Theme = "", GoalLimitEntry = "";
         bool hitsleft = false, hitsright = false, GoalLimitNum = true;
-        public int alterspeedcounter = 0, GoalLimit = 10;
-        public double alterspeed = 3.5, BallX = 0, BallY = 0, ballfirstcheck = 0, ballsecondcheck = 0;
+        public int alterspeedcounter = 0, GoalLimit = 10, cpucounter = 0, CPUcounter = 0;
+        public double alterspeed = 10, BallX = 0, BallY = 0, ballfirstcheck = 0, ballsecondcheck = 0;
+        public double CPUY = 0, tempbally, CPUgohere;
+      
+        bool radiochecked = false, namesentered = false, startinggood = false;
+
 
 
 
@@ -69,7 +73,7 @@ namespace Pong
 
             Random InitalX = new Random();
             Random InitalY = new Random();
-            BallXmove = InitalX.Next(-4, -4);
+            BallXmove = InitalX.Next(-4, 4);
             while (BallXmove == 0)
             {
                 BallXmove = InitalX.Next(-4, 4);
@@ -99,14 +103,22 @@ namespace Pong
                 {
                     LeftRecMovement = false;
                     Leftupkeydown = false;
-                    // RightRecMovement = false;
 
                 }
                 if (e.Key == Key.Down)
                 {
                     LeftRecMovement = false;
                     Leftdownkeydown = false;
-                    // RightRecMovement = true;
+                }
+                if (e.Key == Key.W)
+                {
+                    LeftRecMovement = false;
+                    Leftupkeydown = false;
+                }
+                if (e.Key == Key.S)
+                {
+                    LeftRecMovement = false;
+                    Leftdownkeydown = false;
                 }
             }
             else if (Gamemode == "2P")
@@ -115,27 +127,22 @@ namespace Pong
                 {
                     LeftRecMovement = false;
                     Leftupkeydown = false;
-                    // RightRecMovement = false;
-
                 }
                 if (e.Key == Key.S)
                 {
                     LeftRecMovement = false;
                     Leftdownkeydown = false;
-                    // RightRecMovement = true;
                 }
                 if (e.Key == Key.Up)
                 {
                     RightRecMovement = false;
                     Rightupkeydown = false;
-                    // RightRecMovement = false;
 
                 }
                 if (e.Key == Key.Down)
                 {
                     RightRecMovement = false;
                     Rightdownkeydown = false;
-                    // RightRecMovement = true;
                 }
             }
            
@@ -155,15 +162,24 @@ namespace Pong
                         LeftRecMovement = true;
                         LeftMovement = "up";
                         Leftupkeydown = true;
-                        // RightRecMovement = false;   move to ws keys
-
                     }
                     if (e.Key == Key.Down)
                     {
                         LeftRecMovement = true;
                         LeftMovement = "down";
                         Leftdownkeydown = true;
-                        //RightRecMovement = false;
+                    }
+                    if (e.Key == Key.W)
+                    {
+                        LeftRecMovement = true;
+                        LeftMovement = "up";
+                        Leftupkeydown = true;
+                    }
+                    if (e.Key == Key.S)
+                    {
+                        LeftRecMovement = true;
+                        LeftMovement = "down";
+                        Leftdownkeydown = true;
                     }
                 }
             }
@@ -222,17 +238,50 @@ namespace Pong
 
             }
         }
-        public void GameScoreCheck()
+        public void StartingScreenCheck()
         {
+            // Checks the input for Score limit and sets a BoolValue.
             GoalLimitNum = int.TryParse((TxtScoreLimit.Text), out GoalLimit);
             lblScoreLimitOutput.Content = GoalLimit;
+            
+            //Checks that a radiobutton is clicked and then returns a bool.
+            if (Radio2P.IsChecked == true || RadioSingleP.IsChecked == true)
+            {
+                radiochecked = true;
+            }
+            if (Radio2P.IsChecked == true)
+            {
+                P1Name = TxtP1Name.Text;
+                P2Name = TxtP2Name.Text;
+            }
+            if (RadioSingleP.IsChecked == true)
+            {
+                P1Name = TxtP1Name.Text;
+                P2Name = "Computer";
+            }
+
+            // Checks the name input(s) and returns a bool
+            if (P1Name == "" || P2Name == "")
+            {
+                namesentered = false;
+            }
+            else
+            {
+                namesentered = true;
+            }
+            if (GoalLimitNum == true && radiochecked == true && namesentered == true)
+            {
+                startinggood = true;
+            }
+            TB1output.Text = P1Name;
+            TBP2output.Text = P2Name;
         }
   
         private void ListenerTicker(object sender, EventArgs e)
         {
             LocCheck();
            
-            if (alterspeedcounter == 200)
+            if (alterspeedcounter == 150)
             {
                 if (IsPaused == false)
                 {
@@ -252,6 +301,38 @@ namespace Pong
                 {
                     LRY = LRY - 20;
                     RectangleLeft.Margin = new Thickness(50, 0, 0, LRY);
+                }
+
+                Random CPURand = new Random();
+                CPUY = CPURand.Next(-30, 30);
+
+               
+                if (RightRecMovement == true)
+                {
+                    cpucounter++;
+                    if (cpucounter == 15)
+                    {
+                        tempbally = BallY;
+                        cpucounter = 0;
+                    }
+
+
+                    CPUY = CPUY + tempbally;
+
+                    if (RRY < CPUY && ballmoving == "UP")
+                    {
+                        RRY = RRY + 20;
+                    }
+                    if (RRY > CPUY && ballmoving == "DOWN")
+                    {
+                        RRY = RRY - 20;
+                    }
+                    if (RRY < 300 || RRY > -300)
+                    {
+                     RectangleRight.Margin = new Thickness(0, 0, 50, RRY);
+                    }
+
+                    //LocateCPU
                 }
             }
             else if (Gamemode == "2P")
@@ -308,7 +389,7 @@ namespace Pong
                 BallYmove = -BallYmove;
             }
             //LeftPaddle
-            if (BallX <= -640 && (BallY <= LRY + 100 && BallY >= LRY - 100 ))
+            if (BallX <= -640 && BallY <= LRY + 100 && BallY >= LRY - 100 )
             {
                 hitsright = false;
                 hitsleft = true;
@@ -353,7 +434,7 @@ namespace Pong
                 }
             }
             //RightPaddle
-            if (BallX >= 640 && (BallY <= RRY + 100 && BallY >= RRY - 100))
+            if (BallX >= 640 && BallY <= RRY + 100 && BallY >= RRY - 100)
             {
                 hitsleft = false;
                 hitsright = true;
@@ -401,7 +482,6 @@ namespace Pong
             //Winner is P1
             if (BallX >= 765)
             {
-                lblWinner.Content = "The Winner of this Round is Player 1!";
                 roundwinner = "P1";
                 BallMovement = false;
                 WhoWon();
@@ -409,7 +489,6 @@ namespace Pong
             //Winner is P2
             if (BallX <= -765)
             {
-                lblWinner.Content = "The Winner of this Round is Player 2!";
                 roundwinner = "P2";
                 BallMovement = false;
                 WhoWon();
@@ -512,16 +591,53 @@ namespace Pong
         private void WhoWon()
         {
             IsPaused = true;
+            LeftRecMovement = false;
+            RightRecMovement = false;
             if (roundwinner == "P1")
             {
                 P1Score++;
-                LblP1Score.Content = P1Score;
             }
             else if (roundwinner == "P2")
             {
                 P2Score++;
-                LblP2Score.Content = P2Score;
             }
+            if (P1Score == GoalLimit || P2Score == GoalLimit)
+            {
+                gameover = true;
+            }
+            else
+            {
+                gameover = false;
+            }
+            if (gameover == true)
+            {
+                btnNewRound.Content = "Click the pause button below to start the next game.";
+                if (roundwinner == "P1")
+                {
+                    lblWinner.Text = $"The Winner of the is {P1Name}. Congratulations!";
+                    LblP1Score.Content = P1Score;
+                }
+                else if (roundwinner == "P2")
+                {
+                    lblWinner.Text = $"The Winner of the game is {P2Name}. Congratulations!";
+                    LblP2Score.Content = P2Score;
+                }
+            }
+            else
+            {
+                btnNewRound.Content = "Click the pause button below to start the next round.";
+                if (roundwinner == "P1")
+                {
+                    lblWinner.Text = $"The Winner of this Round is {P1Name}";
+                    LblP1Score.Content = P1Score;
+                }
+                else if (roundwinner == "P2")
+                {
+                    lblWinner.Text = $"The Winner of this Round is {P2Name}";
+                    LblP2Score.Content = P2Score;
+                }
+            }
+           
             WinningScreen.Visibility = Visibility.Visible;
             roundwinner = "";
             RESET();
@@ -548,15 +664,10 @@ namespace Pong
             }
             startingnewround = false;
         }
-
-       
-
-
-
         private void btnBoring_Click(object sender, RoutedEventArgs e)
         {
-            GameScoreCheck();
-            if (GoalLimitNum == true)
+            StartingScreenCheck();
+            if (startinggood == true)
             {
                 Theme = "Boring";
                 MakeVisible();
@@ -573,19 +684,42 @@ namespace Pong
                 CanvasChangeTheme.Visibility = Visibility.Hidden;
                 lblWinner.Foreground = Brushes.Black;
             }
-            else
+            if (GoalLimitNum == false)
             {
                 lblGoalLimitError.Visibility = Visibility.Visible;
             }
-            
+            else
+            {
+                lblGoalLimitError.Visibility = Visibility.Hidden;
+            }
+            if (radiochecked == false)
+            {
+                lblRadioError.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lblRadioError.Visibility = Visibility.Hidden;
+            }
+            if (namesentered == false)
+            {
+                if (radiochecked == true)
+                {
+                   lblNameError.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                lblNameError.Visibility = Visibility.Hidden;
+            }
+
         }
         //Took a while but I figured out how to do pictures. This is possibly the site that helped the most:
         //https://stackoverflow.com/questions/22576588/invalid-uri-the-format-of-the-uri-could-not-be-determined
         //GameGrid.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/RedVsBlue.jpg", UriKind.Absolute)));
         private void btnRedVsBlue_Click(object sender, RoutedEventArgs e)
         {
-            GameScoreCheck();
-            if (GoalLimitNum == true)
+            StartingScreenCheck();
+            if (startinggood == true)
             {
                 Theme = "RedVsBlue";
                 MakeVisible();
@@ -601,16 +735,38 @@ namespace Pong
                 lblWinner.Foreground = Brushes.White;
                 CanvasChangeTheme.Visibility = Visibility.Hidden;
             }
-            else
+            if (GoalLimitNum == false)
             {
                 lblGoalLimitError.Visibility = Visibility.Visible;
             }
-
+            else
+            {
+                lblGoalLimitError.Visibility = Visibility.Hidden;
+            }
+            if (radiochecked == false)
+            {
+                lblRadioError.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lblRadioError.Visibility = Visibility.Hidden;
+            }
+                      if (namesentered == false)
+            {
+                if (radiochecked == true)
+                {
+                    lblNameError.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                lblNameError.Visibility = Visibility.Hidden;
+            }
         }
         private void btnSoccer_Click(object sender, RoutedEventArgs e)
         {
-            GameScoreCheck();
-            if (GoalLimitNum == true)
+            StartingScreenCheck();
+            if (startinggood == true)
             {
                 Theme = "Soccer";
                 MakeVisible();
@@ -626,16 +782,39 @@ namespace Pong
                 CanvasChangeTheme.Visibility = Visibility.Hidden;// Ball
                 lblWinner.Foreground = Brushes.White;
             }
-            else
+            if (GoalLimitNum == false)
             {
                 lblGoalLimitError.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lblGoalLimitError.Visibility = Visibility.Hidden;
+            }
+            if (radiochecked == false)
+            {
+                lblRadioError.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lblRadioError.Visibility = Visibility.Hidden;
+            }
+            if (namesentered == false)
+            {
+                if (radiochecked == true)
+                {
+                    lblNameError.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                lblNameError.Visibility = Visibility.Hidden;
             }
         }
 
         private void btnSpace_Click(object sender, RoutedEventArgs e)
         {
-            GameScoreCheck();
-            if (GoalLimitNum == true)
+            StartingScreenCheck();
+            if (startinggood == true)
             {
                 Theme = "Space";
                 MakeVisible();
@@ -650,27 +829,50 @@ namespace Pong
                 CanvasChangeTheme.Visibility = Visibility.Hidden;
                 lblWinner.Foreground = Brushes.White;
             }
-            else
+            if (GoalLimitNum == false)
             {
                 lblGoalLimitError.Visibility = Visibility.Visible;
             }
-           
+            else
+            {
+                lblGoalLimitError.Visibility = Visibility.Hidden;
+            }
+            if (radiochecked == false)
+            {
+                lblRadioError.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lblRadioError.Visibility = Visibility.Hidden;
+            }
+            if (namesentered == false)
+            {
+                if (radiochecked == true)
+                {
+                    lblNameError.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                lblNameError.Visibility = Visibility.Hidden;
+            }
+
         }
 
         private void btnWizard_Click(object sender, RoutedEventArgs e)
         {
-            GameScoreCheck();
-            if (GoalLimitNum == true)
+            StartingScreenCheck();
+            if (startinggood == true)
             {
                 Theme = "Wizard";
                 MakeVisible();
                 GameGrid.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/Wizard Field.jpg", UriKind.Absolute)));
                 RectangleLeft.Fill = Brushes.White;                 // Left Paddle
                 RectangleRight.Fill = Brushes.White;                // Right Paddle
-                DecorationCenterRec.Fill = Brushes.SaddleBrown;           // Center Decorative Rectangle
-                DecorationLeftrRec.Fill = Brushes.SaddleBrown;          // Decoratvie Left Rectangle
-                DecorationRightRec.Fill = Brushes.SaddleBrown;     // Decorative Right Rectangle
-                DecorationOuterCircle.Fill = Brushes.SaddleBrown;         // Decoratvie Outer Circle
+                DecorationCenterRec.Fill = Brushes.LightSlateGray;           // Center Decorative Rectangle
+                DecorationLeftrRec.Fill = Brushes.LightSlateGray;          // Decoratvie Left Rectangle
+                DecorationRightRec.Fill = Brushes.LightSlateGray;     // Decorative Right Rectangle
+                DecorationOuterCircle.Fill = Brushes.LightSlateGray;         // Decoratvie Outer Circle
                 DecorationInnerCircle.Fill = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/MagicCircle.png", UriKind.Absolute)));         // Decorative InnerCircle
                 Ball.Fill = Brushes.White;                          // Ball
                 LeftImage.Source = new BitmapImage(new Uri("pack://application:,,,/Images/WizardLeft2.png", UriKind.Absolute));
@@ -678,9 +880,32 @@ namespace Pong
                 CanvasChangeTheme.Visibility = Visibility.Hidden;
                 lblWinner.Foreground = Brushes.White;
             }
-            else
+            if (GoalLimitNum == false)
             {
                 lblGoalLimitError.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lblGoalLimitError.Visibility = Visibility.Hidden;
+            }
+            if (radiochecked == false)
+            {
+                lblRadioError.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lblRadioError.Visibility = Visibility.Hidden;
+            }
+            if (namesentered == false)
+            {
+                if (radiochecked == true)
+                {
+                    lblNameError.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                lblNameError.Visibility = Visibility.Hidden;
             }
         }
         private void MakeVisible()
@@ -713,6 +938,14 @@ namespace Pong
                 LeftImage.Visibility = Visibility.Hidden;
                 RightImage.Visibility = Visibility.Hidden;
                 DecorationInnerCircle2.Visibility = Visibility.Hidden;
+            }
+            if (Theme == "RedVsBlue")
+            {
+                Ball.Stroke = Brushes.White;
+            }
+            else
+            {
+                Ball.Stroke = null;
             }
         }
         public void ThemeChanges()
@@ -764,16 +997,19 @@ namespace Pong
         {
             btnNewGame2Player.Visibility = Visibility.Visible;
             btnNewGameSinglePlayer.Visibility = Visibility.Visible;
+            btnMainScreen.Visibility = Visibility.Visible;
         }
         private void btnNGMouseLeave(object sender, MouseEventArgs e)
         {
             btnNewGame2Player.Visibility = Visibility.Hidden;
             btnNewGameSinglePlayer.Visibility = Visibility.Hidden;
+            btnMainScreen.Visibility = Visibility.Hidden;
         }
         private void btnNG1MouseEnter(object sender, MouseEventArgs e)
         {
             btnNewGame2Player.Visibility = Visibility.Visible;
             btnNewGameSinglePlayer.Visibility = Visibility.Visible;
+            btnMainScreen.Visibility = Visibility.Visible;
         }
         private void btnNG1MouseLeave(object sender, MouseEventArgs e)
         {
@@ -791,7 +1027,22 @@ namespace Pong
         {
             btnNewGame2Player.Visibility = Visibility.Hidden;
             btnNewGameSinglePlayer.Visibility = Visibility.Hidden;
+            btnMainScreen.Visibility = Visibility.Hidden;
         }
+        private void btnMainScreen_MouseLeave(object sender, MouseEventArgs e)
+        {
+            btnNewGame2Player.Visibility = Visibility.Hidden;
+            btnNewGameSinglePlayer.Visibility = Visibility.Hidden;
+            btnMainScreen.Visibility = Visibility.Hidden;
+        }
+
+        private void btnMainScreen_MouseEnter(object sender, MouseEventArgs e)
+        {
+            btnNewGame2Player.Visibility = Visibility.Visible;
+            btnNewGameSinglePlayer.Visibility = Visibility.Visible;
+            btnMainScreen.Visibility = Visibility.Visible;
+        }
+
         private void btnVOMouseEnter(object sender, MouseEventArgs e)
         {
             btnChangeTheme.Visibility = Visibility.Visible;
@@ -826,14 +1077,58 @@ namespace Pong
             lblLeaderboard.Visibility = Visibility.Visible;
         }
 
+        private void RadioSingleP_Checked(object sender, RoutedEventArgs e)
+        {
+            Gamemode = "1P";
+            RadioSingleP.IsChecked = true;
+            Radio2P.IsChecked = false;
+            lblP1Name.Visibility = Visibility.Visible;
+            TxtP1Name.Visibility = Visibility.Visible;
+            lblP2Name.Visibility = Visibility.Hidden;
+            TxtP2Name.Visibility = Visibility.Hidden;
+        }
+
+        private void Radio2P_Checked(object sender, RoutedEventArgs e)
+        {
+            Radio2P.IsChecked = true;
+            RadioSingleP.IsChecked = false;
+            Gamemode = "2P";
+            lblP1Name.Visibility = Visibility.Visible;
+            TxtP1Name.Visibility = Visibility.Visible;
+            lblP2Name.Visibility = Visibility.Visible;
+            TxtP2Name.Visibility = Visibility.Visible;
+        }
+
+        private void btnNewGame2Player_Click(object sender, RoutedEventArgs e)
+        {
+            gameover = true;
+            Gamemode = "2P";
+            if (TBP2output.Text != "Player 2")
+            {
+                TBP2output.Text = "Player 2";
+            }
+            RESET();
+        }
+
+        private void btnNewGameSinglePlayer_Click(object sender, RoutedEventArgs e)
+        {
+            gameover = true;
+            Gamemode = "1P";
+            RESET();
+        }
+
         private void RESET()
         {
             if (gameover == true)
             {
-
+                P1Score = 0;
+                P2Score = 0;
+                LblP1Score.Content = 0;
+                LblP2Score.Content = 0;
+                gameover = false;
             }
             startingnewround = true;
-            alterspeed = 3.5;
+            alterspeed = 10;
             BallX = 0;
             BallY = 0;
             Ball.Margin = new Thickness(BallX, 0, 0, BallY);
