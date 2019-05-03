@@ -26,15 +26,21 @@
                 <Rectangle x:Name="RectangleRight" Fill="Black" Margin="0,0,50,0" HorizontalAlignment="Right" Height="100" Stroke="Black" VerticalAlignment="Center" Width="15"/>
                 <Rectangle Name="DecorationCenterRec" Fill="LightSkyBlue" HorizontalAlignment="Stretch" Margin="390,0,386,0" Stroke="Black" Height="442" VerticalAlignment="Top"/>
                 <Ellipse Name="DecorationOuterCircle" Fill="LightSkyBlue" HorizontalAlignment="Center" Height="100" Margin="346,0,346,0" Stroke="Black" VerticalAlignment="center" Width="100"/>
+                <Ellipse Name="DecorationInnerCircle2" Fill="white" HorizontalAlignment="Center" Height="50" Margin="371,0,371,0" Stroke="Black" VerticalAlignment="center" Width="50" Visibility="Hidden"/>
                 <Ellipse Name="DecorationInnerCircle" Fill="white" HorizontalAlignment="Center" Height="50" Margin="371,0,371,0" Stroke="Black" VerticalAlignment="center" Width="50"/>
                 <Rectangle Name="DecorationRightRec" Fill="LightSkyBlue" HorizontalAlignment="Stretch" Margin="763,-2,0,0" Stroke="Black" Height="442" VerticalAlignment="Bottom" Width="30"/>
                 <Rectangle Name="DecorationLeftrRec" Fill="LightSkyBlue" HorizontalAlignment="Stretch" Height="442" Margin="0,0,762,-2" Stroke="Black" VerticalAlignment="Top" Grid.RowSpan="2" Width="30"/>
-                <Ellipse x:Name="Ball" Fill="Black" Margin="0,0,0,0" HorizontalAlignment="center" Height="26" Stroke="Black" VerticalAlignment="center" Width="24"/>
+                <Ellipse x:Name="Ball" Fill="Black" Margin="0,0,0,0" HorizontalAlignment="center" Height="26" VerticalAlignment="center" Width="24"/>
+                <Image Name="RightImage" HorizontalAlignment="Right" Height="100" Margin="0,0,25,0" VerticalAlignment="Stretch" Stretch="UniformToFill" Width="65"/>
+                <Image x:Name="LeftImage" HorizontalAlignment="Left" Height="60" Margin="10,0,0,0" VerticalAlignment="Stretch" Stretch="UniformToFill" Width="60"/>
 
 
             </Grid>
         </Border>
-
+        <Label x:Name="lblScoreLimitOutput" Content="10" HorizontalAlignment="Right" Margin="0,60,155.269,0" VerticalAlignment="Top" Height="34" Width="105" FontWeight="Bold" FontSize="18" Grid.Column="4"/>
+        <Label x:Name="lblScoreLimit" HorizontalAlignment="Left" Margin="24.8,60,0,0" VerticalAlignment="Top" Height="39" Width="115" FontWeight="Bold" FontSize="18" Grid.Column="4">
+            <TextBlock TextDecorations="Underline">Score Limit:</TextBlock>
+        </Label>
         <Label x:Name="LblP1Score" Content="0" HorizontalAlignment="Left" Margin="40,110,0,0" VerticalAlignment="Top" Height="40" Width="30" FontWeight="Bold" FontSize="18" Grid.ColumnSpan="2"/>
         <Label x:Name="lblPlayer1Name" HorizontalAlignment="Left" Margin="40,75,0,0" VerticalAlignment="Top" Height="45" Width="123" FontWeight="Bold" FontSize="18" Grid.ColumnSpan="2">
             <TextBlock TextDecorations="Underline">Player 1</TextBlock>
@@ -43,23 +49,57 @@
         <Label x:Name="lblPlayer2Name" Margin="0,75,0.2,0" VerticalAlignment="Top" Height="45" Width="123" FontWeight="Bold" FontSize="18" HorizontalAlignment="Right" Grid.Column="4">
             <TextBlock TextDecorations="Underline" Width="113" HorizontalAlignment="Right" Height="35" Text="Player 2"/>
         </Label>
-        <Canvas Grid.Column="1" HorizontalAlignment="center" Height="65" Margin="344.992,0,380.208,10" VerticalAlignment="Bottom" Width="420" Grid.ColumnSpan="4">
+        <Canvas Grid.Column="1" HorizontalAlignment="stretch" Height="65" Margin="344.992,0,380.208,10" VerticalAlignment="Bottom" Width="420" Grid.ColumnSpan="4">
             <Button x:Name="btnPauseGame" Background="white"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="350" BorderBrush="Black" BorderThickness="2" Click="btnPauseGame_Click" Content="Press this button to start or pause." Height="26" Canvas.Left="35" HorizontalContentAlignment="Center"  />
             <Label x:Name="lblpausenote" Content="^ This button may also be activated by the spacebar ^" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Canvas.Left="55" Canvas.Top="26" Width="305"/>
         </Canvas>
-        <Canvas x:Name="CanvasTopLeft" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="430" Grid.ColumnSpan="2" MouseLeave="Canvas_MouseLeave">
+        <Canvas x:Name="CanvasTopLeft" HorizontalAlignment="Left" Height="110" VerticalAlignment="Top" Width="795" Grid.ColumnSpan="4" MouseLeave="Canvas_MouseLeave">
             <Button x:Name="btnOptions"  MouseEnter="btnVOMouseEnter" Focusable="False" MouseLeave="btnVOMouseLeave" Background="white" Content="View Options" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" Canvas.Left="100"/>
             <Button x:Name="btnNewGame" Background="white" Content="New Game" Focusable="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" MouseEnter="btnNGMouseEnter" MouseLeave="btnNGMouseLeave" />
-            <Button x:Name="btnNewGameSinglePlayer" Visibility="Hidden" Background="white" Content="Single Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" MouseEnter="btnNG1MouseEnter" MouseLeave="btnNG1MouseLeave" BorderThickness="2" Canvas.Top="20"/>
-            <Button x:Name="btnNewGame2Player" Visibility="Hidden" Background="white" Content="2 Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" MouseEnter="btnNG2MouseEnter" MouseLeave="btnNG2MouseLeave" Canvas.Top="40"/>
+            <Button x:Name="btnNewGameSinglePlayer" Visibility="Visible" Background="white" Content="Single Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" MouseEnter="btnNG1MouseEnter" MouseLeave="btnNG1MouseLeave" BorderThickness="2" Canvas.Top="20"/>
+            <Button x:Name="btnNewGame2Player" Visibility="Visible" Background="white" Content="2 Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" MouseEnter="btnNG2MouseEnter" MouseLeave="btnNG2MouseLeave" Canvas.Top="40"/>
+            <Button x:Name="btnMainScreen" Visibility="Hidden" Background="white" Content="Home Screen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" MouseEnter="btnNG2MouseEnter" MouseLeave="btnNG2MouseLeave" Canvas.Top="59" Click="btnMainScreen_Click"/>
             <Button x:Name="btnLeaderboards" Focusable="False"  Background="white" Content="Leaderboard" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" Canvas.Left="200" Click="btnLeaderboards_Click"/>
-            <Button x:Name="btnChangeTheme" Visibility="Hidden" MouseEnter="btnCTMouseEnter" MouseLeave="btnCTMouseLeave" Background="white" Content="Change Theme" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" Canvas.Left="100" Canvas.Top="20"/>
+            <Button x:Name="btnChangeTheme" Visibility="Hidden" MouseEnter="btnCTMouseEnter" Background="white" Content="Change Theme" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" BorderBrush="Black" BorderThickness="2" Canvas.Left="100" Canvas.Top="20" Click="btnChangeTheme_Click" MouseLeave="btnChangeTheme_MouseLeave"/>
             <Label x:Name="lblLeaderboard" Canvas.Left="205" Canvas.Top="27" Content="Leaderboard coming in a future update!" Visibility="Hidden"/>
+            <Canvas Name="CanvasChangeTheme" Height="55" Canvas.Left="100" Canvas.Top="20" Width="590" Visibility="Hidden">
+
+                <Button x:Name="btn2Boring"  Content="" Canvas.Left="125" Canvas.Top="10" Width="55" Click="btnBoring_Click" Height="35" HorizontalAlignment="Center" Focusable="False">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Images/IconBoring.png" Stretch="UniformToFill"/>
+                    </Button.Background>
+                    <Button.Foreground>
+                        <ImageBrush/>
+                    </Button.Foreground>
+                </Button>
+                <Button x:Name="btn2RedVsBlue"  Content="" Canvas.Left="215" Width="55" Height="35" HorizontalAlignment="Center" Click="btnRedVsBlue_Click" Canvas.Top="10" Focusable="False">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Images/IconRvB.jpg" Stretch="UniformToFill"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="btn2Soccer"  Content="" Canvas.Left="315" Canvas.Top="10" Width="55" Height="35" HorizontalAlignment="Center" Click="btnSoccer_Click" RenderTransformOrigin="0.455,-0.4" Focusable="False" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="Images/IconSoccer.jpg" Stretch="UniformToFill"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="btn2Space"  Content="" Canvas.Left="415" Canvas.Top="10" Width="55" Click="btnSpace_Click" Height="35" HorizontalAlignment="Center" RenderTransformOrigin="-0.545,-0.114" Focusable="False">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Images/IconEarth.jpg" Stretch="UniformToFill"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="btn2Wizard"  Content="" Canvas.Left="515" Width="55" Click="btnWizard_Click" Height="35" HorizontalAlignment="Center" Canvas.Top="10" Focusable="False">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Images/IconWizardHat.png" Stretch="UniformToFill"/>
+                    </Button.Background>
+                </Button>
+                <Label Name="lblthemechangenote" Content="^ To close click again ^" Canvas.Top="19" Height="26" Width="100" FontSize="8" HorizontalContentAlignment="Center"/>
+
+            </Canvas>
         </Canvas>
-        <Grid Name="WinningScreen" Grid.ColumnSpan="5" HorizontalAlignment="Center" Height="638" VerticalAlignment="Top" Width="1185" Visibility="Hidden">
+        <Grid Name="WinningScreen" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" Height="638" VerticalAlignment="Stretch" Width="1185" Visibility="Hidden">
             <Canvas HorizontalAlignment="Center" Height="215" Margin="0,0,0,0" VerticalAlignment="Center" Width="499">
-                <Label Name="lblWinner" Content="The Winner of this Round is Player 2!" Canvas.Top="10" HorizontalContentAlignment="Center" Height="65" Width="499" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
-                <Button Name="btnNewRound" Focusable="False" Content="Click the pause button below to start the next round." Canvas.Top="75" Width="499" Height="74" FontSize="18" FontWeight="Bold" Background="White"/>
+                <Label Name="lblWinner" Content="The Winner of this Round is Player 2!" Canvas.Top="10" HorizontalContentAlignment="Center" Height="65" Width="499" FontSize="24" FontWeight="Bold" VerticalAlignment="Stretch"/>
+                <Button Name="btnNewRound" Focusable="False" Content="Click the pause button below to start the next round." Canvas.Top="75" Width="499" Height="74" FontSize="18" FontWeight="Bold" Background="White" HorizontalContentAlignment="Center" VerticalAlignment="Stretch"/>
 
             </Canvas>
 
@@ -71,8 +111,8 @@
             <Rectangle Fill="White" HorizontalAlignment="Stretch"></Rectangle>
             <Canvas HorizontalAlignment="Stretch" Height="628" Margin="10,10,0,0" VerticalAlignment="Center" Width="1175">
                 <Label x:Name="lblIntroMessage" Content="Hello! Welcome to my game of PONG." Height="90" Width="1175" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="36" HorizontalAlignment="Center" Canvas.Top="35"/>
-                <Label x:Name="lblIntroMessage2" Content="Please select a Gamemode and then select a theme to get started." Height="70" Width="1175" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" FontWeight="Bold" FontSize="24" HorizontalAlignment="Center" Canvas.Top="145"/>
-                <Label x:Name="lblIntroMessage3" Content="The theme and game mode may be changed later in game." Height="50" Width="1175" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" FontSize="20" HorizontalAlignment="Center" Canvas.Top="215" Canvas.Left="-10"/>
+                <Label x:Name="lblIntroMessage2" Content="Please select a game mode, set a goal limit, and then select a theme to get started." Height="70" Width="1175" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" FontWeight="Bold" FontSize="24" HorizontalAlignment="Center" Canvas.Top="114"/>
+                <Label x:Name="lblIntroMessage3" Content="The theme and game mode may be changed later in game." Height="50" Width="1175" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" FontSize="20" HorizontalAlignment="Center" Canvas.Top="175" Canvas.Left="-10"/>
                 <Canvas Height="170" Canvas.Top="370" Width="1175" HorizontalAlignment="Stretch">
                     <Label x:Name="lblBoring" Content="Boring" Canvas.Left="50" Canvas.Top="10" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center" Width="115"/>
                     <Label x:Name="lblRedVsBlue" Content="Red vs Blue" Canvas.Left="290" Canvas.Top="10" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center" Width="115"/>
@@ -80,7 +120,7 @@
                     <Label x:Name="lblSpace" Content="Space" Canvas.Left="770" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center" Canvas.Top="10" Width="115"/>
                     <Label x:Name="lblWizard" Content="Wizard" Canvas.Left="1010" Canvas.Top="10" FontSize="14" HorizontalContentAlignment="Center" FontWeight="Bold" Width="115"/>
 
-                    <Button x:Name="btnBoring"  Content="" Canvas.Left="50" Canvas.Top="44" Width="115" Click="btnBoring_Click" Height="115" HorizontalAlignment="Center">
+                    <Button x:Name="btnBoring"  Content="" Canvas.Left="50" Canvas.Top="44" Width="115" Click="btnBoring_Click" Height="115" HorizontalAlignment="Center" Focusable="False">
                         <Button.Background>
                             <ImageBrush ImageSource="Images/IconBoring.png" Stretch="UniformToFill"/>
                         </Button.Background>
@@ -88,30 +128,33 @@
                             <ImageBrush/>
                         </Button.Foreground>
                     </Button>
-                    <Button x:Name="btnRedVsBlue"  Content="" Canvas.Left="290" Canvas.Top="44" Width="115" Height="115" HorizontalAlignment="Center" Click="btnRedVsBlue_Click">
+                    <Button x:Name="btnRedVsBlue"  Content="" Canvas.Left="290" Canvas.Top="44" Width="115" Height="115" HorizontalAlignment="Center" Click="btnRedVsBlue_Click" Focusable="False">
                         <Button.Background>
                             <ImageBrush ImageSource="Images/IconRvB.jpg" Stretch="UniformToFill"/>
                         </Button.Background>
                     </Button>
-                    <Button x:Name="btnSoccer"  Content="" Canvas.Left="530" Canvas.Top="44" Width="115" Height="115" HorizontalAlignment="Center" Click="btnSoccer_Click">
+                    <Button x:Name="btnSoccer"  Content="" Canvas.Left="530" Canvas.Top="44" Width="115" Height="115" HorizontalAlignment="Center" Click="btnSoccer_Click" Focusable="False">
                         <Button.Background>
                             <ImageBrush ImageSource="Images/IconSoccer.jpg" Stretch="UniformToFill"/>
                         </Button.Background>
                     </Button>
-                    <Button x:Name="btnSpace"  Content="" Canvas.Left="770" Canvas.Top="44" Width="115" Click="btnSpace_Click" Height="115" HorizontalAlignment="Center">
+                    <Button x:Name="btnSpace"  Content="" Canvas.Left="770" Canvas.Top="44" Width="115" Click="btnSpace_Click" Height="115" HorizontalAlignment="Center" Focusable="False">
                         <Button.Background>
                             <ImageBrush ImageSource="Images/IconEarth.jpg" Stretch="UniformToFill"/>
                         </Button.Background>
                     </Button>
-                    <Button x:Name="btnWizard"  Content="" Canvas.Left="1010" Canvas.Top="44" Width="115" Click="btnWizard_Click" Height="115" HorizontalAlignment="Center">
+                    <Button x:Name="btnWizard"  Content="" Canvas.Left="1010" Canvas.Top="44" Width="115" Click="btnWizard_Click" Height="115" HorizontalAlignment="Center" Focusable="False">
                         <Button.Background>
                             <ImageBrush ImageSource="Images/IconWizardHat.png" Stretch="UniformToFill"/>
                         </Button.Background>
                     </Button>
                 </Canvas>
-                <Label x:Name="lblGamemode" Content="GameMode:" Canvas.Left="290" Canvas.Top="295" FontSize="16" FontWeight="Bold"/>
-                <RadioButton x:Name="RadioSingleP" Content="Single Player" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="530" Canvas.Top="305" FontSize="16" FontWeight="Bold"/>
-                <RadioButton x:Name="Radio2P" Content="2 Player" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="770" Canvas.Top="305" FontSize="16" FontWeight="Bold"/>
+                <Label x:Name="lblGamemode" Content="GameMode:" Canvas.Left="290" Canvas.Top="246" FontSize="16" FontWeight="Bold"/>
+                <Label x:Name="lblgoallimit" Content="GoalLimit:" Canvas.Left="425" Canvas.Top="306" FontSize="16" FontWeight="Bold"/>
+                <RadioButton x:Name="RadioSingleP" Content="Single Player" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="530" Canvas.Top="255" FontSize="16" FontWeight="Bold"/>
+                <RadioButton x:Name="Radio2P" Content="2 Player" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="770" Canvas.Top="255" FontSize="16" FontWeight="Bold"/>
+                <TextBox Name="TxtScoreLimit" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="65" Canvas.Left="685" Canvas.Top="314"/>
+                <Label x:Name="lblGoalLimitError" Content="ERROR: This must be a whole number!" Canvas.Left="750" Canvas.Top="309" FontSize="14" FontWeight="Bold" Foreground="Red" Visibility="Hidden"/>
             </Canvas>
 
 

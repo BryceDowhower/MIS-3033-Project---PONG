@@ -26,22 +26,22 @@ namespace Pong
         public bool Leftupkeydown = false, Leftdownkeydown = false, Rightupkeydown = false, Rightdownkeydown = false;
         public int leftplayertop, leftplayerbottom, rightplayertop, rightplayerbottom, movementx, movementy;
         public string LeftMovement = "", RightMovement = "", roundwinner = "", gamewinner = "";
-        public int LRY = 0, RRY = 0;
+        public int LRY = 0, RRY = 0, LPBY = 0, RPBY = 0;
         public int BallXmove, BallYmove, P1Score = 0, P2Score = 0;
         public string Gamemode = "2P";
         public string leftrecmoving = "", rightrecmoving = "", ballmoving = "";
         public int leftmovementcounter = 0, rightmovementcounter = 0, ballmovementcounter = 0;
         public int leftfirstcheck = 0, leftsecondcheck = 0, rightfirstcheck = 0, rightsecondcheck = 0;
-        public bool startingnewround = true;
-        public string Theme = "";
-
-       
-
-        public int alterspeedcounter = 0;
-
+        public bool startingnewround = true, gameover;
+        public string Theme = "", GoalLimitEntry = "";
+        bool hitsleft = false, hitsright = false, GoalLimitNum = true;
+        public int alterspeedcounter = 0, GoalLimit = 10;
+        public double alterspeed = 3.5, BallX = 0, BallY = 0, ballfirstcheck = 0, ballsecondcheck = 0;
 
 
-        public double alterspeed = 3, BallX = 0, BallY = 0, ballfirstcheck = 0, ballsecondcheck = 0;
+
+
+
 
 
         //There is a bit of a glitch in the game. I haven't fixed it yet. Let's see if you can find it. It honestly, could be considered a bit of a feature, a possible lucky 2nd chance if you will.
@@ -141,6 +141,9 @@ namespace Pong
            
 
         }
+
+
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (Gamemode == "1P" )
@@ -219,9 +222,12 @@ namespace Pong
 
             }
         }
-      
-
-       
+        public void GameScoreCheck()
+        {
+            GoalLimitNum = int.TryParse((TxtScoreLimit.Text), out GoalLimit);
+            lblScoreLimitOutput.Content = GoalLimit;
+        }
+  
         private void ListenerTicker(object sender, EventArgs e)
         {
             LocCheck();
@@ -271,6 +277,13 @@ namespace Pong
                     RectangleRight.Margin = new Thickness(0, 0, 50, RRY);
                 }
             }
+            if (Theme == "Wizard")
+            {
+                LPBY = LRY;
+                RPBY = RRY;
+                LeftImage.Margin = new Thickness(10, 0, 0, LPBY);
+                RightImage.Margin = new Thickness(0, 0, 25, RPBY);
+            }
             if (BallMovement == true)
             {
                 
@@ -281,11 +294,9 @@ namespace Pong
             }
         }
 
-
-    
-
         public void LocCheck()
         {
+            ThemeChanges();
             //Bottom
             if (BallY <= -420)
             {
@@ -299,6 +310,8 @@ namespace Pong
             //LeftPaddle
             if (BallX <= -640 && (BallY <= LRY + 100 && BallY >= LRY - 100 ))
             {
+                hitsright = false;
+                hitsleft = true;
                 if (leftrecmoving == "NOT")
                 {
                     BallXmove = -BallXmove;
@@ -342,6 +355,8 @@ namespace Pong
             //RightPaddle
             if (BallX >= 640 && (BallY <= RRY + 100 && BallY >= RRY - 100))
             {
+                hitsleft = false;
+                hitsright = true;
                 if (rightrecmoving == "NOT")
                 {
                     BallXmove = -BallXmove;
@@ -511,15 +526,8 @@ namespace Pong
             roundwinner = "";
             RESET();
         }
-        /*
-        private void btnNewRound_Click(object sender, RoutedEventArgs e)
-        {
-            WinningScreen.Visibility = Visibility.Hidden;
-            BallMovement = true;
-            LeftRecMovement = true;
-            RightRecMovement = true;
-            RESET();
-        }*/
+
+
         private void btnPauseGame_Click(object sender, RoutedEventArgs e)
         {
             WinningScreen.Visibility = Visibility.Hidden;
@@ -539,81 +547,141 @@ namespace Pong
                 IsPaused = !IsPaused;
             }
             startingnewround = false;
-
         }
 
-     
-        private void btnLeaderboards_Click(object sender, RoutedEventArgs e)
-        {
-            lblLeaderboard.Visibility = Visibility.Visible;
-        }
+       
+
+
 
         private void btnBoring_Click(object sender, RoutedEventArgs e)
         {
-            Theme = "Boring";
-            MakeVisible();
-            RectangleLeft.Fill = Brushes.Black;
-            RectangleRight.Fill = Brushes.Black;
-            DecorationCenterRec.Fill = Brushes.LightSkyBlue;
-            DecorationRightRec.Fill = Brushes.LightSkyBlue;
-            DecorationLeftrRec.Fill = Brushes.LightSkyBlue;
-            DecorationRightRec.Fill = Brushes.LightSkyBlue;
-            DecorationOuterCircle.Fill = Brushes.LightSkyBlue;
-            DecorationInnerCircle.Fill = Brushes.White;
-            Ball.Fill = Brushes.Black;
-
+            GameScoreCheck();
+            if (GoalLimitNum == true)
+            {
+                Theme = "Boring";
+                MakeVisible();
+                GameGrid.Background = Brushes.White;
+                RectangleLeft.Fill = Brushes.Black;
+                RectangleRight.Fill = Brushes.Black;
+                DecorationCenterRec.Fill = Brushes.LightSkyBlue;
+                DecorationRightRec.Fill = Brushes.LightSkyBlue;
+                DecorationLeftrRec.Fill = Brushes.LightSkyBlue;
+                DecorationRightRec.Fill = Brushes.LightSkyBlue;
+                DecorationOuterCircle.Fill = Brushes.LightSkyBlue;
+                DecorationInnerCircle.Fill = Brushes.White;
+                Ball.Fill = Brushes.Black;
+                CanvasChangeTheme.Visibility = Visibility.Hidden;
+                lblWinner.Foreground = Brushes.Black;
+            }
+            else
+            {
+                lblGoalLimitError.Visibility = Visibility.Visible;
+            }
+            
         }
         //Took a while but I figured out how to do pictures. This is possibly the site that helped the most:
         //https://stackoverflow.com/questions/22576588/invalid-uri-the-format-of-the-uri-could-not-be-determined
         //GameGrid.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/RedVsBlue.jpg", UriKind.Absolute)));
         private void btnRedVsBlue_Click(object sender, RoutedEventArgs e)
         {
-            Theme = "RedVsBlue";
-            MakeVisible();
-            GameGrid.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/RedVsBlue.jpg", UriKind.Absolute)));
-            RectangleLeft.Fill = Brushes.White;                 // Left Paddle
-            RectangleRight.Fill = Brushes.White;                // Right Paddle
-            DecorationCenterRec.Fill = Brushes.White;           // Center Decorative Rectangle
-            DecorationLeftrRec.Fill = Brushes.DarkRed;          // Decoratvie Left Rectangle
-            DecorationRightRec.Fill = Brushes.MidnightBlue;     // Decorative Right Rectangle
-            DecorationOuterCircle.Fill = Brushes.White;         // Decoratvie Outer Circle
-            DecorationInnerCircle.Fill = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/RedVsBlue.jpg", UriKind.Absolute)));         // Decorative InnerCircle
-            Ball.Fill = Brushes.White;                          // Ball
+            GameScoreCheck();
+            if (GoalLimitNum == true)
+            {
+                Theme = "RedVsBlue";
+                MakeVisible();
+                GameGrid.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/RedVsBlue.jpg", UriKind.Absolute)));
+                RectangleLeft.Fill = Brushes.White;                 // Left Paddle
+                RectangleRight.Fill = Brushes.White;                // Right Paddle
+                DecorationCenterRec.Fill = Brushes.White;           // Center Decorative Rectangle
+                DecorationLeftrRec.Fill = Brushes.DarkRed;          // Decoratvie Left Rectangle
+                DecorationRightRec.Fill = Brushes.MidnightBlue;     // Decorative Right Rectangle
+                DecorationOuterCircle.Fill = Brushes.White;         // Decoratvie Outer Circle
+                DecorationInnerCircle.Fill = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/RedVsBlue.jpg", UriKind.Absolute)));         // Decorative InnerCircle
+                Ball.Fill = Brushes.White;                          // Ball
+                lblWinner.Foreground = Brushes.White;
+                CanvasChangeTheme.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                lblGoalLimitError.Visibility = Visibility.Visible;
+            }
+
         }
         private void btnSoccer_Click(object sender, RoutedEventArgs e)
         {
-            Theme = "Soccer";
-            MakeVisible();
-            GameGrid.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/SoccerBackGround.jpg", UriKind.Absolute)));
+            GameScoreCheck();
+            if (GoalLimitNum == true)
+            {
+                Theme = "Soccer";
+                MakeVisible();
+                GameGrid.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/SoccerBackGround.jpg", UriKind.Absolute)));
+                RectangleLeft.Fill = Brushes.White;                 // Left Paddle
+                RectangleRight.Fill = Brushes.White;                // Right Paddle
+                DecorationCenterRec.Fill = Brushes.White;           // Center Decorative Rectangle
+                DecorationLeftrRec.Fill = Brushes.White;          // Decoratvie Left Rectangle
+                DecorationRightRec.Fill = Brushes.White;     // Decorative Right Rectangle
+                DecorationOuterCircle.Fill = Brushes.White;         // Decoratvie Outer Circle
+                DecorationInnerCircle.Fill = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/SoccerBackGround.jpg", UriKind.Absolute)));         // Decorative InnerCircle
+                Ball.Fill = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/SoccerBall.png", UriKind.Absolute)));
+                CanvasChangeTheme.Visibility = Visibility.Hidden;// Ball
+                lblWinner.Foreground = Brushes.White;
+            }
+            else
+            {
+                lblGoalLimitError.Visibility = Visibility.Visible;
+            }
         }
 
         private void btnSpace_Click(object sender, RoutedEventArgs e)
         {
-            Theme = "Space";
-            MakeVisible();
-            GameGrid.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/Space.jpg", UriKind.Absolute)));
-            RectangleLeft.Fill = Brushes.White;                 // Left Paddle
-            RectangleRight.Fill = Brushes.White;                // Right Paddle
-            DecorationCenterRec.Fill = Brushes.White;           // Center Decorative Rectangle
-            DecorationLeftrRec.Fill = Brushes.White;          // Decoratvie Left Rectangle
-            DecorationRightRec.Fill = Brushes.White;     // Decorative Right Rectangle
-            DecorationOuterCircle.Fill = DecorationInnerCircle.Fill = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/Earth.jpg", UriKind.Absolute)));         // Decoratvie Outer Circle
-            Ball.Fill = Brushes.White;                          // Ball
+            GameScoreCheck();
+            if (GoalLimitNum == true)
+            {
+                Theme = "Space";
+                MakeVisible();
+                GameGrid.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/Space.jpg", UriKind.Absolute)));
+                RectangleLeft.Fill = Brushes.White;                 // Left Paddle
+                RectangleRight.Fill = Brushes.White;                // Right Paddle
+                DecorationCenterRec.Fill = Brushes.White;           // Center Decorative Rectangle
+                DecorationLeftrRec.Fill = Brushes.Black;          // Decoratvie Left Rectangle
+                DecorationRightRec.Fill = Brushes.Black;     // Decorative Right Rectangle
+                DecorationOuterCircle.Fill = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/Earth.jpg", UriKind.Absolute)));         // Decoratvie Outer Circle
+                Ball.Fill = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/Astroid.png", UriKind.Absolute)));        //Ball
+                CanvasChangeTheme.Visibility = Visibility.Hidden;
+                lblWinner.Foreground = Brushes.White;
+            }
+            else
+            {
+                lblGoalLimitError.Visibility = Visibility.Visible;
+            }
+           
         }
 
         private void btnWizard_Click(object sender, RoutedEventArgs e)
         {
-            Theme = "Wizard";
-            MakeVisible();
-            GameGrid.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/Wizard Field.jpg", UriKind.Absolute)));
-            RectangleLeft.Fill = Brushes.White;                 // Left Paddle
-            RectangleRight.Fill = Brushes.White;                // Right Paddle
-            DecorationCenterRec.Fill = Brushes.White;           // Center Decorative Rectangle
-            DecorationLeftrRec.Fill = Brushes.White;          // Decoratvie Left Rectangle
-            DecorationRightRec.Fill = Brushes.White;     // Decorative Right Rectangle
-            DecorationOuterCircle.Fill = Brushes.White;         // Decoratvie Outer Circle
-            DecorationInnerCircle.Fill = Brushes.White;         // Decorative InnerCircle
-            Ball.Fill = Brushes.White;                          // Ball
+            GameScoreCheck();
+            if (GoalLimitNum == true)
+            {
+                Theme = "Wizard";
+                MakeVisible();
+                GameGrid.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/Wizard Field.jpg", UriKind.Absolute)));
+                RectangleLeft.Fill = Brushes.White;                 // Left Paddle
+                RectangleRight.Fill = Brushes.White;                // Right Paddle
+                DecorationCenterRec.Fill = Brushes.SaddleBrown;           // Center Decorative Rectangle
+                DecorationLeftrRec.Fill = Brushes.SaddleBrown;          // Decoratvie Left Rectangle
+                DecorationRightRec.Fill = Brushes.SaddleBrown;     // Decorative Right Rectangle
+                DecorationOuterCircle.Fill = Brushes.SaddleBrown;         // Decoratvie Outer Circle
+                DecorationInnerCircle.Fill = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/MagicCircle.png", UriKind.Absolute)));         // Decorative InnerCircle
+                Ball.Fill = Brushes.White;                          // Ball
+                LeftImage.Source = new BitmapImage(new Uri("pack://application:,,,/Images/WizardLeft2.png", UriKind.Absolute));
+                RightImage.Source = new BitmapImage(new Uri("pack://application:,,,/Images/WizardRight.png", UriKind.Absolute));
+                CanvasChangeTheme.Visibility = Visibility.Hidden;
+                lblWinner.Foreground = Brushes.White;
+            }
+            else
+            {
+                lblGoalLimitError.Visibility = Visibility.Visible;
+            }
         }
         private void MakeVisible()
         {
@@ -635,11 +703,60 @@ namespace Pong
             }
             if (Theme == "Wizard")
             {
-                //Pics visible
+                DecorationInnerCircle2.Visibility = Visibility.Visible;
+                LeftImage.Visibility = Visibility.Visible;
+                RightImage.Visibility = Visibility.Visible;
+               // Random Color = new Random
             }
             else
             {
-                //Pics not visible
+                LeftImage.Visibility = Visibility.Hidden;
+                RightImage.Visibility = Visibility.Hidden;
+                DecorationInnerCircle2.Visibility = Visibility.Hidden;
+            }
+        }
+        public void ThemeChanges()
+        {
+            if (Theme == "Wizard")
+            {
+                if (hitsleft == true)
+                {
+                    Ball.Fill = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/SpellRight2.png", UriKind.Absolute)));
+                }
+                if (hitsright == true)
+                {
+                    Ball.Fill = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Images/SpellLeft.png", UriKind.Absolute)));
+                }
+            }
+            if (Theme == "RedVsBlue")
+            {
+                if (BallX > 0)
+                {
+                    Ball.Fill = Brushes.Blue;
+                }
+                if (BallX < 0)
+                {
+                    Ball.Fill = Brushes.Red;
+                }
+
+
+            }
+        }
+        public bool intobutton = false, exitsthemecanvas = false;
+        public string visible = "makevisible";
+        private void btnChangeTheme_Click(object sender, RoutedEventArgs e)
+        {
+            if (visible == "makevisible")
+            {
+                CanvasChangeTheme.Visibility = Visibility.Visible;
+                btnChangeTheme.Visibility = Visibility.Visible;
+                visible = "makeinvisible";
+            }
+            else if (visible == "makeinvisible")
+            {
+                CanvasChangeTheme.Visibility = Visibility.Hidden;
+                btnChangeTheme.Visibility = Visibility.Hidden;
+                visible = "makevisible";
             }
         }
 
@@ -662,11 +779,13 @@ namespace Pong
         {
             btnNewGame2Player.Visibility = Visibility.Hidden;
             btnNewGameSinglePlayer.Visibility = Visibility.Hidden;
+            btnMainScreen.Visibility = Visibility.Hidden;
         }
         private void btnNG2MouseEnter(object sender, MouseEventArgs e)
         {
             btnNewGame2Player.Visibility = Visibility.Visible;
             btnNewGameSinglePlayer.Visibility = Visibility.Visible;
+            btnMainScreen.Visibility = Visibility.Visible;
         }
         private void btnNG2MouseLeave(object sender, MouseEventArgs e)
         {
@@ -681,27 +800,40 @@ namespace Pong
         {
             btnChangeTheme.Visibility = Visibility.Hidden;
         }
+   
         private void btnCTMouseEnter(object sender, MouseEventArgs e)
         {
             btnChangeTheme.Visibility = Visibility.Visible;
         }
-        private void btnCTMouseLeave(object sender, MouseEventArgs e)
+        private void btnChangeTheme_MouseLeave(object sender, MouseEventArgs e)
         {
             btnChangeTheme.Visibility = Visibility.Hidden;
         }
 
-
         private void Canvas_MouseLeave(object sender, MouseEventArgs e)
         {
             lblLeaderboard.Visibility = Visibility.Hidden;
-
         }
-        
+
+        private void btnMainScreen_Click(object sender, RoutedEventArgs e)
+        {
+            RESET();
+            StartingScreen.Visibility = Visibility.Visible;
+        }
+
+        private void btnLeaderboards_Click(object sender, RoutedEventArgs e)
+        {
+            lblLeaderboard.Visibility = Visibility.Visible;
+        }
 
         private void RESET()
         {
+            if (gameover == true)
+            {
+
+            }
             startingnewround = true;
-            alterspeed = 3;
+            alterspeed = 3.5;
             BallX = 0;
             BallY = 0;
             Ball.Margin = new Thickness(BallX, 0, 0, BallY);

@@ -109,8 +109,18 @@
     <Resource Include="Images\SpellLeft.png" />
     <Resource Include="Images\SpellRight.png" />
     <Resource Include="Images\Wizard Field.jpg" />
-    <Resource Include="Images\WizardLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Images\WizardRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WizardLeft2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MagicCircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SpellRight2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
