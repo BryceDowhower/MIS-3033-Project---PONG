@@ -101,7 +101,7 @@
                         <ImageBrush ImageSource="Images/IconWizardHat.png" Stretch="UniformToFill"/>
                     </Button.Background>
                 </Button>
-                <Label Name="lblthemechangenote" Content="^ To close click again ^" Background="Black" Canvas.Top="19" Height="26" Width="100" FontSize="8" HorizontalContentAlignment="Center"/>
+                <Label Name="lblthemechangenote" Content="^ To close click again ^" Canvas.Top="19" Height="26" Width="100" FontSize="8" HorizontalContentAlignment="Center"/>
 
             </Canvas>
         </Canvas>

@@ -41,12 +41,7 @@ namespace Pong
       
         bool radiochecked = false, namesentered = false, startinggood = false;
 
-
-
-
-
-
-
+        
 
         //There is a bit of a glitch in the game. I haven't fixed it yet. Let's see if you can find it. It honestly, could be considered a bit of a feature, a possible lucky 2nd chance if you will.
 
