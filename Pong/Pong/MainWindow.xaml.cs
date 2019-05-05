@@ -36,7 +36,7 @@ namespace Pong
         public string Theme = "", GoalLimitEntry = "";
         bool hitsleft = false, hitsright = false, GoalLimitNum = true;
         public int alterspeedcounter = 0, GoalLimit = 10, cpucounter = 0, CPUcounter = 0;
-        public double alterspeed = 10, BallX = 0, BallY = 0, ballfirstcheck = 0, ballsecondcheck = 0;
+        public double alterspeed = 12, BallX = 0, BallY = 0, ballfirstcheck = 0, ballsecondcheck = 0;
         public double CPUY = 0, tempbally, CPUgohere;
       
         bool radiochecked = false, namesentered = false, startinggood = false;
@@ -68,15 +68,15 @@ namespace Pong
 
             Random InitalX = new Random();
             Random InitalY = new Random();
-            BallXmove = InitalX.Next(-4, 4);
+            BallXmove = InitalX.Next(-2, 2);
             while (BallXmove == 0)
             {
-                BallXmove = InitalX.Next(-4, 4);
+                BallXmove = InitalX.Next(-2, 2);
             }
-            BallYmove = InitalY.Next(-4, 4);
+            BallYmove = InitalY.Next(-2, 2);
             while (BallYmove == 0)
             {
-                BallYmove = InitalY.Next(-4, 4);
+                BallYmove = InitalY.Next(2, 2);
             }
 
             CanvasTopLeft.Visibility = Visibility.Hidden;
@@ -1123,7 +1123,7 @@ namespace Pong
                 gameover = false;
             }
             startingnewround = true;
-            alterspeed = 10;
+            alterspeed = 12;
             BallX = 0;
             BallY = 0;
             Ball.Margin = new Thickness(BallX, 0, 0, BallY);
