@@ -617,6 +617,10 @@ namespace Pong
                     lblWinner.Text = $"The Winner of the game is {P2Name}. Congratulations!";
                     LblP2Score.Content = P2Score;
                 }
+                if (Gamemode == "1P")
+                {
+                    ScoreRecord NewScore = new ScoreRecord(P1Name, P2Score, GoalLimit);
+                }
             }
             else
             {
@@ -1064,6 +1068,7 @@ namespace Pong
 
         private void btnMainScreen_Click(object sender, RoutedEventArgs e)
         {
+            gameover = true;
             RESET();
             StartingScreen.Visibility = Visibility.Visible;
         }
@@ -1132,10 +1137,7 @@ namespace Pong
             RRY = 50;
             RectangleLeft.Margin = new Thickness(50,0,0,0);
             RectangleRight.Margin = new Thickness(0, 0, 50, 0);
-            LblP1Score.Content = 0;
-            LblP2Score.Content = 0;
-            P1Score = 0;
-            P2Score = 0;
+
         }
 
     }
