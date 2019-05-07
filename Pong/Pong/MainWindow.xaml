@@ -116,18 +116,11 @@
                         </LinearGradientBrush>
                     </TextBlock.Background>
 
-
-
                 </TextBlock>
-
-
-
 
                 <Button Name="btnNewRound" Focusable="False" Content="Click the pause button below to start the next round." Canvas.Top="75" Width="499" Height="74" FontSize="18" FontWeight="Bold" Background="White" HorizontalContentAlignment="Center" VerticalAlignment="Stretch"/>
 
             </Canvas>
-
-
 
         </Grid>
 

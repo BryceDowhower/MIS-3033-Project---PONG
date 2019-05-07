@@ -1018,6 +1018,7 @@ namespace Pong
             btnNewGameSinglePlayer.Visibility = Visibility.Visible;
             btnMainScreen.Visibility = Visibility.Visible;
         }
+
         private void btnNG2MouseLeave(object sender, MouseEventArgs e)
         {
             btnNewGame2Player.Visibility = Visibility.Hidden;
@@ -1131,6 +1132,10 @@ namespace Pong
             RRY = 50;
             RectangleLeft.Margin = new Thickness(50,0,0,0);
             RectangleRight.Margin = new Thickness(0, 0, 50, 0);
+            LblP1Score.Content = 0;
+            LblP2Score.Content = 0;
+            P1Score = 0;
+            P2Score = 0;
         }
 
     }
